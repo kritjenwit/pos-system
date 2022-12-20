@@ -1,0 +1,17 @@
+Create Branch
+- git checkout -b {name}
+- git branch
+
+
+Git Push
+- git push
+- git push --set-upstream origin {name}
+
+
+Github
+- OK?
+
+Switch Branch
+- git swicth main
+- git branch -d {name}
+- git pull
