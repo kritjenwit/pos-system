@@ -2,13 +2,13 @@
 
     require_once '../config/config.php';
 
-    if (count($_GET) > 0)
+    if (count($_POST) > 0)
     {
-        $pd_names = isset($_GET['pd_names']) ? $_GET['pd_names'] : "";
-        $pd_types = isset($_GET['pd_types']) ? $_GET['pd_types'] : "";
-        $pd_brand = isset($_GET['pd_brand']) ? $_GET['pd_brand'] : "";
-        $pd_prices = isset($_GET['pd_prices']) ? $_GET['pd_prices'] : "";
-        $pd_times = isset($_GET['pd_times']) ? $_GET['pd_times'] : "";
+        $pd_names = isset($_POST['pd_names']) ? $_POST['pd_names'] : "";
+        $pd_types = isset($_POST['pd_types']) ? $_POST['pd_types'] : "";
+        $pd_brand = isset($_POST['pd_brand']) ? $_POST['pd_brand'] : "";
+        $pd_prices = isset($_POST['pd_prices']) ? $_POST['pd_prices'] : "";
+        $pd_times = isset($_POST['pd_times']) ? $_POST['pd_times'] : "";
 
         if ($images == "" ||
             $pd_names == "" ||
