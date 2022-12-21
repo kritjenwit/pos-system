@@ -9,6 +9,7 @@ const db = require("../database/index");
  * @param {Response} res 
  */
 async function checksalehandlers(req, res) {
+
     let user_id = req.body.user_id;
         let sql = "SELECT DATE_FORMAT(DATE, '%M-%Y') AS DATE,SUM(price) AS total,SUM(amount) AS amount FROM sale_amount GROUP BY DATE_FORMAT(DATE,'%M-%Y') ORDER BY DATE_FORMAT(DATE,'%M-%Y') DESC";
         let result = await db.query(sql);
@@ -21,6 +22,7 @@ async function checksalehandlers(req, res) {
         res.json(response);
         res.end();
         return;
+
 }
 async function lchecksalehandlers(req, res) {
     let user_id = req.body.user_id;
