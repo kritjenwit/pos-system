@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-        <title>Basic PHP PDO SQL SUM by month : devbanban.com 2021</title>
-    </head>
+<?php require_once '../includes/views/header.php'; ?>
+<?php require_once '../includes/config/config.php'; ?>
     <body>
+
         <div class="container">
             <div class="row">
                 <div class="col-md-12"> <br>
@@ -18,22 +12,56 @@
                       <br>
                     <h3> รายงานยอดขาย แยกเป็นรายเดือน</h3>
  
-                    <table class="table table-striped  table-hover table-responsive table-bordered">
-                        <thead>
+                    <table class="table table-hover table-responsive table-bordered">
+                        <thead class="table-dark">
                             <tr>
-                                <th width="30%">เดือน</th>
-                                <th width="70%" class="text-center">ยอดขาย</th>
+                                <th >เดือน</th> 
+                                <th >จำนวน</th>
+                                <th  class="text-center">ยอดขาย</th>
                             </tr>
-
+                            <!-- width="30%" -->
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>เดือน</td>
-                                <td align="right">เชี้ยไรเนี่ย</td>
+                        <?php
+                           $url= "http://localhost:3000/api/sale";
+                           $data = [
+                               'user_id' => "2",
+                           ];
+                           $response = curl_post($url, $data);
+                           $sale = $response['data'];
+
+                           $url= "http://localhost:3000/api/lsale";
+                           $data = [
+                               'user_id' => "2",
+                           ];
+                           $lresponse = curl_post($url, $data);
+                           $lsale = $lresponse['data'];
+
+                           $newlsale = [];
+                           foreach($lsale as $value) {
+                            $newlsale[$value['DATE']][] = $value;
+                           }
+                         
+                        $total=0;
+                           foreach($sale as $row)  {
+                            $total += $row['total'];
+                            ?>
+                            <?php foreach ($newlsale[$row['DATE']] as $value) : ?>
+                                <tr>        
+                                <td><?= $value['pdt'].$value['pdb'].$value['NAME'];?></td>
+                                <td align="right"><?= $value['amount'];?></td>
+                                <td align="right"><?= $value['price'];?></td>
                             </tr>
+                            <?php endforeach; ?>
+                            <tr class="table-success">
+                                <td><?= $row['DATE'];?></td>
+                                <td align="right"><?= $row['amount'];?></td>
+                                <td align="right"><?= number_format($row['total'],2);?></td>
+                            </tr>
+                            <?php } ?>
                             <tr class="table-danger">
                                 <td  class="text-center">Total</td>
-                                <td align="right"></td>
+                                <td align="right" colspan="2"><?= number_format($total,2);?></td>
                             </tr>
                         </tbody>
                     </table>
