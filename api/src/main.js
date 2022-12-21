@@ -6,7 +6,8 @@ const PORT = 3000;
 app.use(express.urlencoded({extended:false}))
 
 app.post("/api/sale",salehandlers.checksalehandlers);  //ยอดขายรายเดือนของพีช
-
+app.post("/api/lsale",salehandlers.lchecksalehandlers);  //ยอดขายแบบละเอียด
+app.post("/api/stat",salehandlers.statsalehandlers); //สถิติขายพีช
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
