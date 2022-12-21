@@ -1,10 +1,12 @@
-var req = require("express").request;
-var res = require("express").response;
-const db = require("../databased/db");
-/**
- *
- * @param {Request} req
- * @param {Response} res
+var req = require('express').request;
+var res = require('express').response;
+const db = require("../database/index");
+/*
+ * 
+ * 
+ * 
+ * @param {Request} req 
+ * @param {Response} res 
  */
 async function checksalehandlers(req, res) {
   let user_id = req.body.user_id;
