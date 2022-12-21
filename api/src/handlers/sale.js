@@ -1,6 +1,6 @@
 var req = require('express').request;
 var res = require('express').response;
-const db = require("../database/index");
+const db = require("../databased/db");
 /*
  * 
  * 
