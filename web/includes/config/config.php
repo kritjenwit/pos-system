@@ -17,7 +17,7 @@ function curl_post($url, $data) {
     $cURLConnection = curl_init($url);
     curl_setopt($cURLConnection, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($cURLConnection, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-    curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, json_encode($data));
     curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
 
     $apiResponse = curl_exec($cURLConnection);

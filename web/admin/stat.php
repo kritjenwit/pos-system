@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-</head>
+<?php require_once '../includes/views/header.php'; ?>
+<?php require_once '../includes/config/config.php'; ?>
 <?php
 
 $stat = "";
 if (count($_POST) > 0) {
   if (isset($_POST['tdata'])) {
     $tdata = $_POST['tdata'];
+  }
+  if($_POST['tdata'] == ""){
+    echo '
+        <script>
+        alert("กรุณาเลือกประเภทข้อมูล");
+        </script>';
+        goto here;
   }
 
   $url = "http://localhost:3000/api/stat";
@@ -38,22 +37,6 @@ if (count($_POST) > 0) {
 
 
 }
-function curl_post($url, $data)
-{
-
-  $cURLConnection = curl_init($url);
-  curl_setopt($cURLConnection, CURLOPT_CUSTOMREQUEST, "POST");
-  curl_setopt($cURLConnection, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-  curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, json_encode($data));
-  curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
-
-  $apiResponse = curl_exec($cURLConnection);
-  curl_close($cURLConnection);
-
-  // $apiResponse - available data from the API request
-  $jsonArrayResponse = json_decode($apiResponse, true);
-  return $jsonArrayResponse;
-}
 
 
 
@@ -61,10 +44,12 @@ function curl_post($url, $data)
 ?>
 
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   <?php if (count($_POST) > 0) : ?>
 
-
-    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+    <div class="container justify-content-center d-flex">
+    <canvas id="myChart" style="width:100%; max-width:600px; border:1px soild red;"></canvas>
+    </div>
     <script>
       var xValues = JSON.parse('<?php echo json_encode($x, JSON_UNESCAPED_UNICODE) ?>');
       var yValues = JSON.parse('<?php echo json_encode($y) ?>');
@@ -92,6 +77,8 @@ function curl_post($url, $data)
       console.log(xValues)
     </script>
   <?php endif; ?>
+  <?php here: ?>
+  <div class="container justify-content-center d-flex">
   <form action="" method="post">
     <label for="tdata">เลือกประเภทข้อมูล</label>
     <input list="tdata" name="tdata">
@@ -101,6 +88,7 @@ function curl_post($url, $data)
     </datalist>
     <input type="submit">
   </form>
+  </div>
 
 
 </body>
