@@ -55,5 +55,5 @@ const putAccountData = async (req, res) => {
 }
 
 module.exports = {
-    putAccountData
+  putAccountData,
 };
