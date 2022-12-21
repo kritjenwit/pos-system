@@ -3,12 +3,14 @@ const Response = require("express").Response;
 const db = require("../databased/db");
 
 const putAccountData = async (req, res) => {
-    let pdName = req.body.pd_name;
-    let pdType = req.body.pd_type;
-    let pdBrand = req.body.pd_brand;
-    let pdPrice = req.body.pd_price;
+    let pdId = req.body.product_id;
+    let pdName = req.body.product_name;
+    let pdType = req.body.product_type;
+    let pdBrand = req.body.product_brand;
+    let pdAmount = req.body.product_amount;
+    let pdPrice = req.body.product_price;
 
-    if (pdName == "" || pdType == "" || pdBrand == "" || pdPrice == "")
+    if (pdId == "" || pdName == "" || pdType == "" || pdBrand == "" || pdPrice == "" || pdAmount == "")
     {
         let response = {
             code: 401,
@@ -18,11 +20,12 @@ const putAccountData = async (req, res) => {
         res.end();
         return;
     } else {
-        let sql = "INSERT INTO collect_sales(pd_name, pd_type, pd_brand, pd_price, pd_time) VALUES(?, ?, ?, ?, ?)";
-        let result = db.query(sql, [pdName, pdType, pdBrand, pdPrice, new Date()]);
-        console.log(result);
+
+        // INSERT sale_amount (user_id,product_id,product_type,product_brand,product_name,amount,price,DATE) VALUE (1,1,'เสื้อยืด','nike','เสื้อยืดรุ่น555',2,1500,NOW())
+        let sql = "INSERT INTO shop_db(product_id, product_name, product_type, product_brand, product_amount, product_price, date) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        let result = await db.query(sql, [pdId, pdType, pdBrand, pdName, pdAmount, pdPrice, new Date()]);
         try {
-            if (result[0] && result.affectedRows > 0)
+            if (result && result[0].affectedRows > 0)
             {
                 let response = {
                     code: 200,

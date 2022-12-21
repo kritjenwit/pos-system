@@ -13,6 +13,12 @@ app.get("/api/user", flow_account.flowaccountHandler); //แสดงค่า�
 app.post("/api/createflow", flow_account.insertflowaccountHandler); //บันทึกค่าใช้จ่าย dear
 app.post("/api/updateflow", flow_account.updateflowaccountHandler); //อัพเดทค่าใช้จ่าย dear
 app.get("/api/stock", stock.stockHandler); //stock dear
+app.post('/api/putAccount', saleAccount.putAccountData); //push data sale of "Oat"
+
+app.post('/api/loginUser', systemLogReg.loginHandler);
+
+app.post('/api/registerUser', systemLogReg.registerHandler);
+
 //app.get();
 app.get('/', (req, res) => {
   res.send('Hello World!')
