@@ -1,30 +1,28 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
 const salehandlers = require("./handlers/sale");
-const saleAccount = require("./handlers/dataSaleAccount");
-const systemLogReg = require("./handlers/login&register");
-app = express();
-const corsOptions = {
-  origin: "http://localhost:3000"
-};
-app.use(cors(corsOptions));
-
+const flow_account = require("./handlers/flowaccount");
+const stock = require("./handlers/stock");
+const app = express();
 app.use(express.json());
-app.use(express.urlencoded({ extended:false }))
-
-app.post("/api/sale",salehandlers.checksalehandlers);  //ยอดขายรายเดือนของพีช
-
+const PORT = 3000;
+app.use(express.urlencoded({ extended: false }));
+app.post("/api/sale", salehandlers.checksalehandlers);  //ยอดขายรายเดือนของพีช
+app.post("/api/lsale",salehandlers.lchecksalehandlers);  //ยอดขายแบบละเอียด
+app.post("/api/stat",salehandlers.statsalehandlers); //สถิติขายพีช
+app.get("/api/user", flow_account.flowaccountHandler); //แสดงค่าใช้จ่าย dear
+app.post("/api/createflow", flow_account.insertflowaccountHandler); //บันทึกค่าใช้จ่าย dear
+app.post("/api/updateflow", flow_account.updateflowaccountHandler); //อัพเดทค่าใช้จ่าย dear
+app.get("/api/stock", stock.stockHandler); //stock dear
 app.post('/api/putAccount', saleAccount.putAccountData); //push data sale of "Oat"
 
 app.post('/api/loginUser', systemLogReg.loginHandler);
 
 app.post('/api/registerUser', systemLogReg.registerHandler);
 
+//app.get();
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
-
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Listen on port " + PORT);
 });
