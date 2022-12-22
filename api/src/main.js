@@ -2,8 +2,8 @@ const express = require("express");
 const salehandlers = require("./handlers/sale");
 const flow_account = require("./handlers/flowaccount");
 const stock = require("./handlers/stock");
-const saleAccount = require("./handlers/dataSaleAccount");
-const systemLogReg = require("./handlers/login&register");
+const saleAccount = require('./handlers/dataSaleAccount');
+const systemLogReg = require("./handlers/systemLogReg");
 const app = express();
 app.use(express.json());
 const PORT = 3000;
@@ -17,11 +17,10 @@ app.post("/api/updateflow", flow_account.updateflowaccountHandler); //อัพ�
 app.post("/api/insertstock", stock.insertstockHandler); //insert stock dear
 app.get("/api/showstock", stock.showstockHandler); //show stock dear
 app.post("/api/insertstockwithid", stock.insertwithidstockHandler); //show stock dear
+app.post('/api/getDataSales', saleAccount.getDataSales); //get product data "Oat"
 app.post('/api/putAccount', saleAccount.putAccountData); //push data sale of "Oat"
-
-app.post('/api/loginUser', systemLogReg.loginHandler);
-
-app.post('/api/registerUser', systemLogReg.registerHandler);
+app.post('/api/loginUser', systemLogReg.loginHandler); // system Login of "Oat"
+app.post('/api/registerUser', systemLogReg.registerHandler); // system Register of "Oat"
 
 //app.get();
 app.get('/', (req, res) => {
