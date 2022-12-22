@@ -1,3 +1,54 @@
+<?php
+require_once "../includes/config/config.php";
+
+$description = "";
+$seller = "";
+$type = "";
+$summary = "";
+$status = "";
+if (count($_POST) > 0) {
+    if ($_POST['description']) {
+        $description = $_POST['description'];
+    }
+    if ($_POST['seller']) {
+        $seller = $_POST['seller'];
+    }
+    if ($_POST['type']) {
+        $type = $_POST['type'];
+    }
+    if ($_POST['summary']) {
+        $summary = $_POST['summary'];
+    }
+    if ($description == "" || $seller == "" || $type == "" || $summary == "") {
+        //echo "empty.";
+        header("location: CreateFlowAccount.php");
+        goto here;
+    }
+    $url = "http://localhost:3000/api/createflow";
+    $data = [
+        'description' => $description,
+        'seller' => $seller,
+        'type' => $type,
+        'summary' => $summary
+    ];
+    $response = curl_post($url, $data);
+    if ($response['code'] == 200) {
+        echo '
+        <script>
+        alert("Create is Success.");
+        window.location.href="FlowAccount.php";
+        </script>';
+    }
+    function json_response($data)
+    {
+        header("Content-Type: application/json; charset=UTF-8 ");
+        return json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+}
+here:
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,32 +62,36 @@
 </head>
 
 <body>
+<?php require_once "../includes/views/header.php"; ?>
+
     <div class="container mt-3">
         <div class="card">
-            <div class="card-header">
-                <button class="btn btn-primary">บันทึก</button>
-                <button class="btn btn-light" onclick="window.print()"><img src="https://cdn-icons-png.flaticon.com/512/2891/2891455.png" style="width: 30px;" alt=""></button>
-            </div>
-            <div class="card-body">
-                <form class="row g-3">
-                    <div class="mb">
-                        <label for="input" class="form-label">ชื่อผู้จำหน่าย</label>
-                        <input type="text" class="form-control" id="input" placeholder="Example input placeholder">
-                    </div>
-                    <div class="mb">
-                        <label for="exampleFormControlTextarea1" class="form-label">รายละเอียด</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                    <div class="mb">
-                        <label for="input" class="form-label">วันที่</label>
-                        <input type="text" class="form-control" id="input" placeholder="Example input placeholder">
-                    </div>
-                    <div class="mb">
-                        <label for="input" class="form-label">ราคาสินค้า</label>
-                        <input type="text" class="form-control" id="input" placeholder="Example input placeholder">
-                    </div>
-                </form>
-            </div>
+            <form action="" method="post">
+                <div class="card-header text-white bg-success">
+                    <button class="btn btn-primary">บันทึก</button>
+                </div>
+                <div class="card-body">
+                    <form class="row g-3">
+                        <div class="mb">
+                            <label for="input" class="form-label">ชื่อผู้จำหน่าย</label>
+                            <input type="text" class="form-control" name="seller" id="input" placeholder="Example input placeholder" required>
+                        </div>
+                        <div class="mb">
+                            <label for="input" class="form-label">ประเภท</label>
+                            <input type="text" class="form-control" name="type" id="input" placeholder="Example input placeholder" required>
+                        </div>
+                        <div class="mb">
+                            <label for="exampleFormControlTextarea1" class="form-label">รายละเอียด</label>
+                            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" required></textarea>
+                        </div>
+                        <div class="mb">
+                            <label for="input" class="form-label">ยอดค้างชำระ</label>
+                            <input type="text" class="form-control" name="summary" id="input" placeholder="Example input placeholder" required>
+                        </div>
+                    </form>
+                </div>
+            </form>
+            <a class="btn btn-secondary" href="FlowAccount.php" role="button">Back</a>
         </div>
     </div>
 </body>

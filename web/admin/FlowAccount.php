@@ -1,3 +1,32 @@
+<?php
+require_once "../includes/config/config.php";
+
+$url = "http://localhost:3000/api/user";
+$response = curl_get($url);
+
+function json_response($data)
+{
+    header("Content-Type: application/json; charset=UTF-8 ");
+    return json_encode($data, JSON_UNESCAPED_UNICODE);
+    die();
+}
+$btn = "";
+if (count($_POST) > 0) {
+    if (isset($_POST['btn'])) {
+        $btn = $_POST['btn'];
+    }
+    $url = "http://localhost:3000/api/updateflow";
+    $data = [
+        'id' => $btn
+    ];
+    $response1 = curl_post($url, $data);
+    if ($response1['code'] == 200) {
+        header("location: FlowAccount.php");
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,15 +40,15 @@
 </head>
 
 <body>
+    <?php require_once "../includes/views/header.php"; ?>
+    
     <div class="container mt-3">
-        <table class="table table-success table-hover">
+        <a class="btn btn-primary" href="CreateFlowAccount.php" role="button">เพิ่มข้อมูล</a>
+        <table class="table table-dark table-hover mt-3">
             <thead>
-                <tr>
+                <tr class="text-center">
                     <th scope="col">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
+                        <div class="form-check float-end">
                         </div>
                     </th>
                     <th scope="col">วันที่</th>
@@ -31,51 +60,31 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
-                        </div>
-                    </th>
-                    <th>12-05-22</th>
-                    <td>เสื้อผ้า</td>
-                    <td>H&M</td>
-                    <td>เสื้อผ้า</td>
-                    <td>3,399.00</td>
-                    <td>ชำระเงินแล้ว</td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
-                        </div>
-                    </th>
-                    <th>12-06-22</th>
-                    <td>สุขภัณฑ์</td>
-                    <td>American Standard</td>
-                    <td>สุขภัณฑ์</td>
-                    <td>1299.00</td>
-                    <td>รอดำเนินการ</td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
-                        </div>
-                    </th>
-                    <th>13-07-20</th>
-                    <td>คอมพิวเตอร์</td>
-                    <td>@twitter</td>
-                    <td>อิเล็กทรอนิกส์</td>
-                    <td>3,499.00</td>
-                    <td>รอดำเนินการ</td>
-                </tr>
+                <?php for ($i = 0; $i < count($response); ++$i) { ?>
+                    <tr class="text-center">
+                        <th scope="row">
+                            <div class="form-check">
+                                <form action="" method="post">
+                                    <?php if ($response[$i]['status'] == "รอดำเนินการ") { ?>
+                                        <button name="btn" class="btn btn-warning" value="<?php echo $response[$i]['id'] ?>">ชำระ</button>
+                                    <?php } else { ?>
+                                        <p class="text-success">เสร็จสิ้น</p>
+                                    <?php } ?>
+                                </form>
+                            </div>
+                        </th>
+                        <th><?php echo substr($response[$i]['date_time'], 0, 10) ?></th>
+                        <td><?php echo $response[$i]['description'] ?></td>
+                        <td><?php echo $response[$i]['seller'] ?></td>
+                        <td><?php echo $response[$i]['type'] ?></td>
+                        <td><?php echo $response[$i]['summary'] ?></td>
+                        <?php if ($response[$i]['status'] == "ชำระแล้ว") { ?>
+                            <td class="text-success"><?php echo $response[$i]['status'] ?></td>
+                        <?php } else { ?>
+                            <td class="text-danger">รอดำเนินการ</td>
+                        <?php }  ?>
+                    </tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>

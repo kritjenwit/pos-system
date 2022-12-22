@@ -1,3 +1,56 @@
+<?php
+require_once "../includes/config/config.php";
+
+$url = "http://localhost:3000/api/showstock";
+$response = curl_get($url);
+//print_r($response[0]);
+
+$url2 = "http://localhost/Project/pos-system/linenotify/mainnotify.php";
+
+$data1 = [
+    'action' => 'stock',
+    'stockdata' => $response
+];
+$response2 = json_post($url2,$data1);
+var_dump($response);
+//json_response($url2);
+
+
+function json_post($url, $data)
+{
+
+    $cURLConnection = curl_init($url);
+    curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+
+    $apiResponse = curl_exec($cURLConnection);
+    curl_close($cURLConnection);
+
+    // $apiResponse - available data from the API request
+    $jsonArrayResponse = json_decode($apiResponse, true);
+    return $jsonArrayResponse;
+}
+// echo "<pre>";
+// print_r($response[0]);
+$product_id = "";
+$product_name = "";
+$type = "";
+if(count($_POST) > 0){
+    if(isset($_POST['product_id'])){
+        $product_id = $_POST['product_id'];
+    }
+    $url1 = "http://localhost:3000/api/insertstockwithid";
+    $data1 = [
+        "product_id" => $product_id
+    ];
+    $response1 = curl_post($url1, $data1);
+    // print_r($response1);
+    if($response1['code'] == '200'){
+        header("location: Stock.php");
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,18 +64,14 @@
 </head>
 
 <body>
+    <?php require_once "../includes/views/header.php"; ?>
     <div class="container mt-3">
-        <table class="table table-success table-hover">
+        <a class="btn btn-primary" href="Insertstock.php" role="button">เพิ่มสต็อคใหม่</a>
+        <table class="table table-dark table-hover text-center mt-3">
             <thead>
                 <tr>
-                    <th scope="col">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
-                        </div>
-                    </th>
-                    <th scope="col">รูปภาพ</th>
+                    <th scope="col"></th>
+                    <th scope="col">ลำดับ</th>
                     <th scope="col">รหัสสินค้า</th>
                     <th scope="col">ชื่อสินค้า</th>
                     <th scope="col">ประเภทสินค้า</th>
@@ -31,54 +80,29 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
-                        </div>
-                    </th>
-                    <th>12-05-22</th>
-                    <td>เสื้อผ้า</td>
-                    <td>H&M</td>
-                    <td>เสื้อผ้า</td>
-                    <td>3,399.00</td>
-                    <td>ชำระเงินแล้ว</td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
-                        </div>
-                    </th>
-                    <th>12-06-22</th>
-                    <td>สุขภัณฑ์</td>
-                    <td>American Standard</td>
-                    <td>สุขภัณฑ์</td>
-                    <td>1299.00</td>
-                    <td>รอดำเนินการ</td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
-                        </div>
-                    </th>
-                    <th>13-07-20</th>
-                    <td>คอมพิวเตอร์</td>
-                    <td>@twitter</td>
-                    <td>อิเล็กทรอนิกส์</td>
-                    <td>3,499.00</td>
-                    <td>รอดำเนินการ</td>
-                </tr>
+                <?php for ($i = 0; $i < count($response[0]); $i++) { ?>
+                    <tr>
+                        <form action="" method="POST">
+                            <th scope="col"><button class="btn btn-success" type="submit" name="product_id" value="<?php echo $response[0][$i]['product_id'] ?>">เพิ่ม stock</button></th>
+                        <th><?php echo $i + 1 ?></th>
+                        <td><?php echo $response[0][$i]['product_id'] ?></td>
+                        <td><?php echo $response[0][$i]['product_name'] ?></td>
+                        <td><?php echo $response[0][$i]['type'] ?></td>
+                        </form>
+                        <td><?php echo $response[0][$i]['remain'] ?></td>
+                        <?php if ($response[0][$i]['remain'] == 0) { ?>
+                            <td class="text-danger">สินค้าหมด</td>
+                        <?php } else if ($response[0][$i]['remain'] < 5) { ?>
+                            <td class="text-warning">สินค้าใกล้หมด</td>
+                        <?php } else { ?>
+                            <td class="text-success">มีสินค้า</td>
+                        <?php } ?>
+                    </tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>
+    <?php require_once "../includes/views/footer.php"; ?>
 </body>
 
 </html>
