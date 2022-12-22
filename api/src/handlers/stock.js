@@ -35,7 +35,6 @@ async function insertstockHandler(req, res) {
     let result = await db.query(sql, [product_id, product_name]);
     let count = result[0].length;
     let cnt = 1;
-    //console.log(result[0][0]['product_id']);
     if (result && result[0].length > 0) {
         sql = "UPDATE stock SET remain = ? WHERE product_id = ? AND product_name = ?";
         result = await db.query(sql, [(result[0][0]['remain']) + cnt, product_id, product_name]);
@@ -69,8 +68,6 @@ async function showstockHandler(req, res) {
     let id = req.body.id;
     let sql = `SELECT * FROM stock`;
     let result = await db.query(sql);
-    //console.log("hello");
-    //console.log(result[0]);
     let response = {
         code: 200,
         message: "success",
@@ -86,7 +83,6 @@ async function insertwithidstockHandler(req, res) {
     let sql = "SELECT * FROM stock WHERE product_id = ?";
     let result = await db.query(sql, [product_id]);
     let cnt = 1;
-    console.log(result[0]);
     if(result && result[0].length > 0){
         sql = "UPDATE stock SET remain = ? , date_time = ? WHERE product_id = ? ";
         result = await db.query(sql, [(result[0][0]['remain']) + cnt,new Date(),product_id]);
