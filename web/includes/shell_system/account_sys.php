@@ -36,7 +36,18 @@
                 'product_price' => $pd_price,
                 'product_amount' => $pd_amount,
             ];
+            
             $response = curl_post($url, $data);
+
+            $url = "http://localhost/linenot/mainnotify.php";
+            $data = [
+                'action' => "sale",
+                'pd_id' => $pd_id,
+                'pd_name' => $pd_name,
+                'price' => $pd_price,
+                'amount' => $pd_amount,
+            ];
+            $responseline = curl_post($url, $data);
             if (!is_array($response)) {
                 $error = '<script>
                     alert("No Response from api not JSON");

@@ -1,3 +1,32 @@
+<?php
+require_once "../includes/config/config.php";
+
+$url = "http://localhost:3000/api/stock";
+$response = curl_get($url);
+// print_r($response);
+// die();
+$url1 = "http://localhost/linenot/mainnotify.php";
+$data =  [
+    'action' => "stock",
+    // 'stockdata' => $response,
+    'stockdata' => json_encode($response)
+  ];
+$response1 = json_post($url1,$data);
+$response2 = $response1['data'];
+
+// $url2 = "http://localhost/linenot/mainnotify.php";
+// $data =  [
+//     'stockdata' => $response,
+//   ];
+// $response2 = curl_post($url2,$data);
+
+echo "<pre>";
+print_r($response1);
+echo "</pre>";
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +43,7 @@
     <div class="container mt-3">
         <table class="table table-success table-hover">
             <thead>
-                <tr>
+                <tr class="text-center">
                     <th scope="col">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -31,54 +60,43 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
-                        </div>
-                    </th>
-                    <th>12-05-22</th>
-                    <td>เสื้อผ้า</td>
-                    <td>H&M</td>
-                    <td>เสื้อผ้า</td>
-                    <td>3,399.00</td>
-                    <td>ชำระเงินแล้ว</td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
-                        </div>
-                    </th>
-                    <th>12-06-22</th>
-                    <td>สุขภัณฑ์</td>
-                    <td>American Standard</td>
-                    <td>สุขภัณฑ์</td>
-                    <td>1299.00</td>
-                    <td>รอดำเนินการ</td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                            </label>
-                        </div>
-                    </th>
-                    <th>13-07-20</th>
-                    <td>คอมพิวเตอร์</td>
-                    <td>@twitter</td>
-                    <td>อิเล็กทรอนิกส์</td>
-                    <td>3,499.00</td>
-                    <td>รอดำเนินการ</td>
-                </tr>
+                <?php for ($i = 0; $i < count($response); $i++) { ?>
+                    <tr class="text-center">
+                        <th scope="row">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                </label>
+                            </div>
+                        </th>
+                        <th><?php echo substr($response[$i]['date_time'],0,10)?></th>
+                        <td>เสื้อผ้า</td>
+                        <td>H&M</td>
+                        <td>เสื้อผ้า</td>
+                        <td><?php echo substr($response[$i]['remain'],0,10)?></td>
+                        <td><?php echo substr($response[$i]['status'],0,10)?></td>
+                    </tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>
 </body>
+<?php 
 
+
+function json_post($url, $data)
+{
+
+    $cURLConnection = curl_init($url);
+    curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+
+    $apiResponse = curl_exec($cURLConnection);
+    curl_close($cURLConnection);
+
+    // $apiResponse - available data from the API request
+    $jsonArrayResponse = json_decode($apiResponse, true);
+    return $jsonArrayResponse;
+}
+?>
 </html>
