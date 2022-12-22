@@ -35,11 +35,6 @@ async function insertflowaccountHandler(req, res) {
     let type = req.body.type;
     let summary = req.body.summary;
     let status = req.body.status;
-    //let date_time = req.body.date_time;
-    console.log(description);
-    console.log(seller);
-    console.log(type);
-    console.log(summary);
     if (!(description && seller && type && summary)) {
         let response = {
             code: 400,
