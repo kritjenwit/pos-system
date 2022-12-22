@@ -2,6 +2,8 @@ const express = require("express");
 const salehandlers = require("./handlers/sale");
 const flow_account = require("./handlers/flowaccount");
 const stock = require("./handlers/stock");
+const saleAccount = require("./handlers/dataSaleAccount");
+const systemLogReg = require("./handlers/login&register");
 const app = express();
 app.use(express.json());
 const PORT = 3000;
@@ -13,6 +15,8 @@ app.get("/api/user", flow_account.flowaccountHandler); //แสดงค่า�
 app.post("/api/createflow", flow_account.insertflowaccountHandler); //บันทึกค่าใช้จ่าย dear
 app.post("/api/updateflow", flow_account.updateflowaccountHandler); //อัพเดทค่าใช้จ่าย dear
 app.post("/api/insertstock", stock.insertstockHandler); //insert stock dear
+app.get("/api/showstock", stock.showstockHandler); //show stock dear
+app.post("/api/insertstockwithid", stock.insertwithidstockHandler); //show stock dear
 app.post('/api/putAccount', saleAccount.putAccountData); //push data sale of "Oat"
 
 app.post('/api/loginUser', systemLogReg.loginHandler);
