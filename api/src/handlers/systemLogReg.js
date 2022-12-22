@@ -59,14 +59,19 @@ const registerHandler = async (req, res) => {
     let password = req.body.password;
     /*** @type {string} */
     let comfirm_password = req.body.comfirm_password;
-
+    /*** @type {string} */
     let address = req.body.address;
+    /*** @type {string} */
+    let phone = req.body.phone;
+    /*** @type {string} */
+    let role = "user";
     
     if (!(username &&
         password &&
         comfirm_password &&
         firstname &&
         lastname &&
+        phone &&
         address)) {
       let response = {
         code: 402,
@@ -77,7 +82,7 @@ const registerHandler = async (req, res) => {
       return;
     }
   
-    if (password !== comfirm_password) {
+    if (password != comfirm_password) {
       let response = {
         code: 403,
         message: "Password and Comfirm password do not match",
@@ -88,7 +93,6 @@ const registerHandler = async (req, res) => {
     } else {
       let sql = `SELECT * FROM users_account WHERE username = ? limit 1`;
       let result = await db.query(sql, [username]);
-        console.log(result);
       if (result && result[0].length > 0) {
         let response = {
           code: 400,
@@ -98,13 +102,13 @@ const registerHandler = async (req, res) => {
         res.end();
         return;
       } else {
-        let sql = `INSERT INTO users_account (username, password, date) VALUES (?, ?, ?)`;
-        let result = await db.query(sql, [username, password, new Date()]);
+        let sql = `INSERT INTO users_account (username, password, role, date) VALUES (?, ?, ?, ?)`;
+        let result = await db.query(sql, [username, password, role, new Date()]);
   
         if (result && result[0].affectedRows > 0) {
           let userId = result[0].insertId;
-          sql = `INSERT INTO users_info (user_id, firstname, lastname, address, date) VALUES (?, ?, ?, ?, ?)`;
-          result = await db.query(sql, [userId, firstname, lastname, address, new Date()]);
+          sql = `INSERT INTO users_info (user_id, firstname, lastname, phone, address, date) VALUES (?, ?, ?, ?, ?, ?)`;
+          result = await db.query(sql, [userId, firstname, lastname, phone, address, new Date()]);
   
           if (result && result[0].affectedRows > 0) {
             let response = {
