@@ -12,7 +12,7 @@ app.post("/api/stat",salehandlers.statsalehandlers); //สถิติขาย�
 app.get("/api/user", flow_account.flowaccountHandler); //แสดงค่าใช้จ่าย dear
 app.post("/api/createflow", flow_account.insertflowaccountHandler); //บันทึกค่าใช้จ่าย dear
 app.post("/api/updateflow", flow_account.updateflowaccountHandler); //อัพเดทค่าใช้จ่าย dear
-app.get("/api/stock", stock.stockHandler); //stock dear
+app.post("/api/insertstock", stock.insertstockHandler); //insert stock dear
 app.post('/api/putAccount', saleAccount.putAccountData); //push data sale of "Oat"
 
 app.post('/api/loginUser', systemLogReg.loginHandler);
