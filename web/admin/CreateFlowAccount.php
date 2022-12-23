@@ -1,6 +1,6 @@
 <?php
+require_once "../includes/constant/index.php";
 require_once "../includes/config/config.php";
-
 $description = "";
 $seller = "";
 $type = "";
@@ -24,7 +24,7 @@ if (count($_POST) > 0) {
         header("location: CreateFlowAccount.php");
         goto here;
     }
-    $url = "http://localhost:3000/api/createflow";
+    $url = API_URL."/api/createflow";
     $data = [
         'description' => $description,
         'seller' => $seller,
@@ -86,7 +86,7 @@ here:
                         </div>
                         <div class="mb">
                             <label for="input" class="form-label">ยอดค้างชำระ</label>
-                            <input type="text" class="form-control" name="summary" id="input" placeholder="Example input placeholder" required>
+                            <input type="number" class="form-control" name="summary" id="input" placeholder="Example input placeholder" required>
                         </div>
                     </form>
                 </div>

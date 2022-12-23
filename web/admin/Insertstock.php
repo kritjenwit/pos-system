@@ -1,6 +1,6 @@
 <?php
+require_once "../includes/constant/index.php";
 require_once "../includes/config/config.php";
-
 $product_id = "";
 $product_name = "";
 $type = "";
@@ -21,19 +21,26 @@ if (count($_POST) > 0) {
         //echo "empty.";
         goto here;
     }
-    $url = "http://localhost:3000/api/insertstock";
+    $url = API_URL . "/api/insertstock";
     $data = [
         'product_id' => $product_id,
         'product_name' => $product_name,
         'type' => $type
     ];
-    $response = curl_post($url,$data);
+    $response = curl_post($url, $data);
     //print_r($response);
-    if($response['code'] == '200'){
+    if ($response['code'] == '200') {
         echo '
         <script>
         alert("Create is Success.");
         window.location.href="stock.php";
+        </script>';
+    }
+    if ($response['code'] == '406') {
+        echo '
+        <script>
+        alert("Please Check product id.");
+        window.location.href="Insertstock.php";
         </script>';
     }
 }
@@ -52,14 +59,14 @@ here:
 </head>
 
 <body>
-<?php require_once "../includes/views/header.php"; ?>
+    <?php require_once "../includes/views/header.php"; ?>
 
     <div class="container mt-3">
-        
+
         <div class="card">
             <form action="" method="post">
                 <div class="card-header">
-                    <button class="btn btn-primary">บันทึก</button>
+                    <a href="Stock.php">ย้อนกลับ</a>
                 </div>
                 <div class="card-body">
                     <form class="row g-3">
@@ -78,7 +85,7 @@ here:
                     </form>
                 </div>
             </form>
-            <a class="btn btn-secondary float-end" href="Stock.php" role="button">ย้อนกลับ</a>
+            <button class="btn btn-primary">บันทึก</button>
         </div>
     </div>
 </body>

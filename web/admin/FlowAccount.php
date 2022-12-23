@@ -1,7 +1,7 @@
 <?php
 require_once "../includes/config/config.php";
-
-$url = "http://localhost:3000/api/user";
+require_once "../includes/constant/index.php";
+$url = API_URL . "/api/user";
 $response = curl_get($url);
 
 function json_response($data)
@@ -15,7 +15,7 @@ if (count($_POST) > 0) {
     if (isset($_POST['btn'])) {
         $btn = $_POST['btn'];
     }
-    $url = "http://localhost:3000/api/updateflow";
+    $url = API_URL . "/api/updateflow";
     $data = [
         'id' => $btn
     ];
@@ -41,52 +41,58 @@ if (count($_POST) > 0) {
 
 <body>
     <?php require_once "../includes/views/header.php"; ?>
-    
+
     <div class="container mt-3">
-        <a class="btn btn-primary" href="CreateFlowAccount.php" role="button">เพิ่มข้อมูล</a>
-        <table class="table table-dark table-hover mt-3">
-            <thead>
-                <tr class="text-center">
-                    <th scope="col">
-                        <div class="form-check float-end">
-                        </div>
-                    </th>
-                    <th scope="col">วันที่</th>
-                    <th scope="col">รายละเอียด</th>
-                    <th scope="col">ชื่อผู้จำหน่าย</th>
-                    <th scope="col">หมวดหมู่</th>
-                    <th scope="col">ยอดรวมสุทธิ</th>
-                    <th scope="col">สถานะ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php for ($i = 0; $i < count($response); ++$i) { ?>
-                    <tr class="text-center">
-                        <th scope="row">
-                            <div class="form-check">
-                                <form action="" method="post">
-                                    <?php if ($response[$i]['status'] == "รอดำเนินการ") { ?>
-                                        <button name="btn" class="btn btn-warning" value="<?php echo $response[$i]['id'] ?>">ชำระ</button>
-                                    <?php } else { ?>
-                                        <p class="text-success">เสร็จสิ้น</p>
-                                    <?php } ?>
-                                </form>
-                            </div>
-                        </th>
-                        <th><?php echo substr($response[$i]['date_time'], 0, 10) ?></th>
-                        <td><?php echo $response[$i]['description'] ?></td>
-                        <td><?php echo $response[$i]['seller'] ?></td>
-                        <td><?php echo $response[$i]['type'] ?></td>
-                        <td><?php echo $response[$i]['summary'] ?></td>
-                        <?php if ($response[$i]['status'] == "ชำระแล้ว") { ?>
-                            <td class="text-success"><?php echo $response[$i]['status'] ?></td>
-                        <?php } else { ?>
-                            <td class="text-danger">รอดำเนินการ</td>
-                        <?php }  ?>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+        <div class="card border-info">
+            <div class="card-header bg-secondary">
+                <a class="btn btn-primary" href="CreateFlowAccount.php" role="button">เพิ่มข้อมูล</a>
+            </div>
+            <div class="card-body bg-secondary">
+                <table class="table table-dark table-hover border-secondary mt-3">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">
+                                <div class="form-check float-end">
+                                </div>
+                            </th>
+                            <th scope="col">วันที่</th>
+                            <th scope="col">รายละเอียด</th>
+                            <th scope="col">ชื่อผู้จำหน่าย</th>
+                            <th scope="col">หมวดหมู่</th>
+                            <th scope="col">ยอดรวมสุทธิ</th>
+                            <th scope="col">สถานะ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for ($i = 0; $i < count($response); ++$i) { ?>
+                            <tr class="text-center">
+                                <th scope="row">
+                                    <div class="form-check">
+                                        <form action="" method="post">
+                                            <?php if ($response[$i]['status'] == "รอดำเนินการ") { ?>
+                                                <button name="btn" class="btn btn-warning" value="<?php echo $response[$i]['id'] ?>">ชำระ</button>
+                                            <?php } else { ?>
+                                                <p class="text-success">เสร็จสิ้น</p>
+                                            <?php } ?>
+                                        </form>
+                                    </div>
+                                </th>
+                                <th><?php echo substr($response[$i]['date_time'], 0, 10) ?></th>
+                                <td><?php echo $response[$i]['description'] ?></td>
+                                <td><?php echo $response[$i]['seller'] ?></td>
+                                <td><?php echo $response[$i]['type'] ?></td>
+                                <td><?php echo $response[$i]['summary'] ?></td>
+                                <?php if ($response[$i]['status'] == "ชำระแล้ว") { ?>
+                                    <td class="text-success"><?php echo $response[$i]['status'] ?></td>
+                                <?php } else { ?>
+                                    <td class="text-danger">รอดำเนินการ</td>
+                                <?php }  ?>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 

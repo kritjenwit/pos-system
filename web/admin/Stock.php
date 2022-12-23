@@ -1,19 +1,16 @@
 <?php
 require_once "../includes/config/config.php";
-
-$url = "http://localhost:3000/api/showstock";
+require_once "../includes/constant/index.php";
+$url = API_URL."/api/showstock";
 $response = curl_get($url);
-//print_r($response[0]);
 
-$url2 = "http://localhost/Project/pos-system/linenotify/mainnotify.php";
+$url2 = BASE_URL2."/linenotify/mainnotify.php";
 
 $data1 = [
     'action' => 'stock',
-    'stockdata' => $response
+    'stockdata' => json_encode($response[0])
 ];
 $response2 = json_post($url2,$data1);
-var_dump($response);
-//json_response($url2);
 
 
 function json_post($url, $data)
@@ -26,12 +23,10 @@ function json_post($url, $data)
     $apiResponse = curl_exec($cURLConnection);
     curl_close($cURLConnection);
 
-    // $apiResponse - available data from the API request
     $jsonArrayResponse = json_decode($apiResponse, true);
     return $jsonArrayResponse;
 }
-// echo "<pre>";
-// print_r($response[0]);
+
 $product_id = "";
 $product_name = "";
 $type = "";
@@ -39,14 +34,13 @@ if(count($_POST) > 0){
     if(isset($_POST['product_id'])){
         $product_id = $_POST['product_id'];
     }
-    $url1 = "http://localhost:3000/api/insertstockwithid";
+    $url1 = API_URL."/api/insertstockwithid";
     $data1 = [
         "product_id" => $product_id
     ];
     $response1 = curl_post($url1, $data1);
-    // print_r($response1);
     if($response1['code'] == '200'){
-        header("location: Stock.php");
+        echo (header("location: Stock.php"));
     }
 }
 ?>
@@ -67,7 +61,7 @@ if(count($_POST) > 0){
     <?php require_once "../includes/views/header.php"; ?>
     <div class="container mt-3">
         <a class="btn btn-primary" href="Insertstock.php" role="button">เพิ่มสต็อคใหม่</a>
-        <table class="table table-dark table-hover text-center mt-3">
+        <table class="table table-dark table-hover text-center table-striped mt-3">
             <thead>
                 <tr>
                     <th scope="col"></th>
