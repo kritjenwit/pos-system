@@ -17,7 +17,8 @@ const loginHandler = async (req, res) => {
         return;
     }
 
-    let sql = `SELECT username, password FROM users_account WHERE username = '${username}' AND password = '${password}'`;
+    let sql = `SELECT username, password, role FROM users_account WHERE username = '${username}' AND password = '${password}'`;
+    
     // console.log(result[0]);
     let result = await db.query(sql);
     // Login successfully

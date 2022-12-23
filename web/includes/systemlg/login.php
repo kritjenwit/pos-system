@@ -2,7 +2,6 @@
 
 require_once '../config/config.php';
 require_once '../constant/index.php';
-
 if(isset($_POST['send'])) {
 
     $username = isset($_POST['username']) ? $_POST['username'] : "";
@@ -29,7 +28,8 @@ if(isset($_POST['send'])) {
         if ($response['code'] == CODE_SUCCESS) {
             $_SESSION['success'] = $response['message'];
             $_SESSION['is_login'] = 'yes';
-            header('location: ' . BASE_URL . '/index.php');
+            $_SESSION['role'] =  $response['result'][0]['role'];
+            header("Location: ".BASES_URL."");
         } else {
             $_SESSION['error'] = $response['message'];
         }
@@ -84,5 +84,6 @@ here:
     </div>
 
 <?php require_once '../views/footer.php'; ?>
+
 </body>
 

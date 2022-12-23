@@ -15,6 +15,9 @@ if (isset($_POST['action'])) {
 	$action = $_POST['action'];
 	switch ($action) {
 		case 'sale':
+			if ($_POST['amount'] == ""){
+				die();
+			}
 			if (isset($_POST['pd_id'])) {
 				$pd_id = $_POST['pd_id'];
 			}
@@ -26,6 +29,9 @@ if (isset($_POST['action'])) {
 			}
 			if (isset($_POST['price'])) {
 				$price = $_POST['price'];
+			}
+			if ($amount == null){
+				die();
 			}
 			$result = [
 				'pdid' => $pd_id,
@@ -55,6 +61,10 @@ if (isset($_POST['action'])) {
 				$sToken = "irdgUenG4p2fahnCW6Ft1e7O8cLbLWsWyrmVMp7FvX5";  // โทเค่นใส่อันนี้
 
 			linenotify($sToken, $msg);
+			break;
 			}
+
+        }
+
 	}
-}
+
