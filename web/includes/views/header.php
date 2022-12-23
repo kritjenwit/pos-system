@@ -1,6 +1,6 @@
 <?php
-require_once '../config/config.php';
-require_once '../constant/index.php'; 
+require_once BASE_PATH . '/includes/config/config.php';
+require_once BASE_PATH . '/includes/constant/index.php'; 
 ?>
 
 
