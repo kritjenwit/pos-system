@@ -60,50 +60,57 @@ here:
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-lg-5">
-                <div class="col-lg-5 mt-5 me-lg-auto">
-                    <img src="https://media.istockphoto.com/id/1321139457/photo/cartoon-character-hand-holds-smart-phone.jpg?b=1&s=170667a&w=0&k=20&c=J1x-ZxYFr3PqXFpMA7dRAKwOZMCuer0J3QPkYKs3oIU=" alt="">
+            <div class="d-lg-flex">
+                <div class="col-lg-5">
+                    <div class="mt-5 pe-3">
+                        <img class="rounded w-100" width="550px" src="https://images.unsplash.com/photo-1529539795054-3c162aab037a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="">
+                        <h2 class="text-secondary font-monospace mt-3 text-sm-center text-lg-start">Welcome to Shopee Clone</h2>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-7">
-                <form action="" method="post">
-                <?php if(isset($_SESSION['error'])) { ?>
-                    <div class="alert alert-danger" role="alert">
-                        <?php
-                            echo $_SESSION['error'];
-                            unset($_SESSION['error']);
-                        ?>
-                    </div>
-                <?php } ?>
-                <?php if(isset($_SESSION['success'])) { ?>
-                    <div class="alert alert-success" role="alert">
-                        <?php
-                            echo $_SESSION['success'];
-                            unset($_SESSION['success']);
-                        ?>
-                    </div>
-                <?php } ?>
-
-                    <h1>Register</h1>
-                    <div class="card p-4">
-                        <label for="Username" class="form-label">Username</label>
-                        <input class="form-control" type="text" name="username" id="user">
-                        <label for="Password" class="form-label">Password</label>
-                        <input class="form-control" type="password" name="password" id="pass">
-                        <label for="comfirm_password" class="form-label">Comfrim Password</label>
-                        <input class="form-control" type="password" name="comfirm_password" id="cpass">
-                        <label for="Firstname" class="form-label">Firstname</label>
-                        <input class="form-control" type="text" name="firstname" id="firstname">
-                        <label for="Lastname" class="form-label">Lastname</label>
-                        <input class="form-control" type="text" name="lastname" id="lastname">
-                        <label for="Phone" class="form-label">Phone</label>
-                        <input class="form-control" type="text" name="phone" id="phone">
+                <div class="col-lg-7 p-4">
+                    <form action="" method="post">
+                    <?php if(isset($_SESSION['error'])) { ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php
+                                echo $_SESSION['error'];
+                                unset($_SESSION['error']);
+                            ?>
+                        </div>
+                    <?php } ?>
+                    <?php if(isset($_SESSION['success'])) { ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php
+                                echo $_SESSION['success'];
+                                unset($_SESSION['success']);
+                            ?>
+                        </div>
+                    <?php } ?>
+    
+                        <h1 class="mb-4 text-info fw-bold">Register</h1>
+                        <div class="d-lg-flex">
+                            <div class="col-lg-6 pe-2">
+                                <label for="Username" class="form-label">Username</label>
+                                <input class="form-control" type="text" name="username" id="user">
+                                <label for="Password" class="form-label">Password</label>
+                                <input class="form-control" type="password" name="password" id="pass">
+                                <label for="comfirm_password" class="form-label">Comfrim Password</label>
+                                <input class="form-control" type="password" name="comfirm_password" id="cpass">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="Firstname" class="form-label">Firstname</label>
+                                <input class="form-control" type="text" name="firstname" id="firstname">
+                                <label for="Lastname" class="form-label">Lastname</label>
+                                <input class="form-control" type="text" name="lastname" id="lastname">
+                                <label for="Phone" class="form-label">Phone</label>
+                                <input class="form-control" type="text" name="phone" id="phone">
+                            </div>
+                        </div>
                         <label for="address" class="form-label">Address</label>
                         <textarea class="form-control" name="address" id="address" cols="30" rows="3"></textarea>
 
-                        <input class="btn btn-info mt-5" type="submit" name="send" value="Send">
-                    </div>
-                </form>
+                        <input class="form-control btn btn-info mt-5 fw-bold text-light" type="submit" name="send" value="Send">
+                    </form>
+                </div>
             </div>
         </div>
     </div>

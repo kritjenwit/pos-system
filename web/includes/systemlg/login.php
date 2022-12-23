@@ -46,7 +46,7 @@ here:
     <div class="container">
         <div class="row">
             <div class="col-lg-5 mt-5 me-lg-auto">
-                <img width="100%" src="https://media.istockphoto.com/id/1321139457/photo/cartoon-character-hand-holds-smart-phone.jpg?b=1&s=170667a&w=0&k=20&c=J1x-ZxYFr3PqXFpMA7dRAKwOZMCuer0J3QPkYKs3oIU=" alt="">
+                <img class="rounded" width="100%" src="https://media.istockphoto.com/id/1321139457/photo/cartoon-character-hand-holds-smart-phone.jpg?b=1&s=170667a&w=0&k=20&c=J1x-ZxYFr3PqXFpMA7dRAKwOZMCuer0J3QPkYKs3oIU=" alt="">
             </div>
             <div class="col-lg-7">
                 <form action="" method="post">
@@ -69,13 +69,13 @@ here:
                         <?php } ?>
     
                         <h1 class="fs-1 fw-bold text-success" >Log In</h1>
-                        <div class="card p-4">
+                        <div class="p-4">
                             <label for="Username">Username</label>
                             <input class="form-control" type="text" name="username" id="user">
                             <label for="Password">Password</label>
                             <input class="form-control" type="password" name="password" id="pass">
     
-                            <input class="btn btn-info mt-5" type="submit" name="send" value="Send">
+                            <input class="btn btn-success fw-bold text-light mt-5 form-control" type="submit" name="send" value="Send">
                         </div>
                     </div>
                 </form>
