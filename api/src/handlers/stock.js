@@ -79,7 +79,7 @@ async function showstockHandler(req, res) {
 }
 
 async function insertwithidstockHandler(req, res) {
-    let product_id = req.body.product_id;
+    let product_id = req.body.product_id
     let sql = "SELECT * FROM stock WHERE product_id = ?";
     let result = await db.query(sql, [product_id]);
     let cnt = 1;
@@ -108,9 +108,41 @@ async function insertwithidstockHandler(req, res) {
     }
 }
 
+async function saleinsertwithidstockHandler(req, res) {
+    let product_id = req.body.product_id;
+    let amount = req.body.amount;
+    let sql = "SELECT * FROM stock WHERE product_id = ?";
+    let result = await db.query(sql, [product_id]);
+    let cnt = amount;
+    if(result && result[0].length > 0){
+        sql = "UPDATE stock SET remain = ? , date_time = ? WHERE product_id = ? ";
+        result = await db.query(sql, [(result[0][0]['remain']) - cnt,new Date(),product_id]);
+        if(result && result[0].affectedRows > 0){
+            let response = {
+                code: 200,
+                message: "success",
+                data: result
+            };
+            res.json(response);
+            res.end();
+            return
+        }
+        else{
+            let response = {
+                code: 400,
+                message: "Update Failed.",
+            };
+            res.json(response);
+            res.end();
+            return
+        }
+    }
+}
+
 module.exports = {
     insertstockHandler,
     showstockHandler,
-    insertwithidstockHandler
+    insertwithidstockHandler,
+    saleinsertwithidstockHandler
 
 }

@@ -17,7 +17,6 @@ const getDataSales = async (req, res) => {
     } else {
         let product = "SELECT * FROM product_info WHERE product_id = ?";
         var dataProduct = await db.query(product, [pdId]);
-
         if (dataProduct && dataProduct.length > 0) {
             let response = {
                 dataProduct: dataProduct[0]
@@ -26,7 +25,9 @@ const getDataSales = async (req, res) => {
             res.end();
             return;
         }
+        
     }
+    
 };
 
 const putAccountData = async (req, res) => {
@@ -49,7 +50,7 @@ const putAccountData = async (req, res) => {
     } else {
 
         // INSERT sale_amount (user_id,product_id,product_type,product_brand,product_name,amount,price,DATE) VALUE (1,1,'เสื้อยืด','nike','เสื้อยืดรุ่น555',2,1500,NOW())
-        let sql = "INSERT INTO shop_db(product_id, product_name, product_type, product_brand, amount, price, date) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        let sql = "INSERT INTO sale_amount(product_id, product_name, product_type, product_brand, amount, price, date) VALUES(?, ?, ?, ?, ?, ?, ?)";
         let result = await db.query(sql, [pdId, pdType, pdBrand, pdName, pdAmount, pdPrice, new Date()]);
         if (result && result[0].affectedRows > 0)
         {

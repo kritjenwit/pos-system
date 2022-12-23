@@ -3,22 +3,25 @@ require_once "../includes/config/config.php";
 
 $url = "http://localhost:3000/api/showstock";
 $response = curl_get($url);
-//print_r($response[0]);
 
-$url2 = "http://localhost/Project/pos-system/linenotify/mainnotify.php";
+$url2 = "http://localhost/linenotify/mainnotify.php";
 
-$data1 = [
+$data2 = [
     'action' => 'stock',
-    'stockdata' => $response
+    'stockdata' => json_encode($response[0])
 ];
-$response2 = json_post($url2,$data1);
-var_dump($response);
+$response2 = json_post($url2, $data2);
+// echo "<pre>";
+// print_r($response2);
+
+//var_dump($response2);
 //json_response($url2);
 
 
 function json_post($url, $data)
 {
-
+// print_r($data);
+// die();
     $cURLConnection = curl_init($url);
     curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $data);
     curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
@@ -30,6 +33,8 @@ function json_post($url, $data)
     $jsonArrayResponse = json_decode($apiResponse, true);
     return $jsonArrayResponse;
 }
+
+
 // echo "<pre>";
 // print_r($response[0]);
 $product_id = "";

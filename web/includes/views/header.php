@@ -1,7 +1,3 @@
-<?php
-require_once BASE_PATH . '/includes/config/config.php';
-require_once BASE_PATH . '/includes/constant/index.php'; 
-?>
 
 
 <!DOCTYPE html>
@@ -27,29 +23,30 @@ require_once BASE_PATH . '/includes/constant/index.php';
 
             <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                 <li>
-                    <a href="#" class="nav-link text-secondary">
+                    <a href="<?php echo BASES_URL?>" class="nav-link text-secondary">
                         Home
                     </a>
                 </li>
+                <?php if(isset($_SESSION['role']) && $_SESSION['role'] == "admin"){ ?>
                 <li>
-                    <a href="#" class="nav-link text-white">
+                    
+                    <a href="" class="nav-link text-white">
                         Dashboard
                     </a>
                 </li>
+                <?php } ?>
                 <li>
                     <a href="#" class="nav-link text-white">
                         Products
                     </a>
                 </li>
+                <?php if(isset($_SESSION['role']) && $_SESSION['role'] == "admin"){ ?>
                 <li>
-                    <a href="#" class="nav-link text-white">
-                        Customers
+                    <a href="<?php echo BASE_URL."/sale_system/account_sys.php"?>" class="nav-link text-white">
+                        ขายสินค้า
                     </a>
                 </li>
-                <div class="d-sm-flex justify-content-lg-end ms-lg-auto">
-                    <button type="button" class="btn btn-outline-dark text-light fw-bold me-2">Sign In</button>
-                    <button type="button" class="btn btn-primary">Sign Up</button>
-                </div>
+                <?php } ?>
             </ul>
             </div>
         </div>
@@ -68,7 +65,12 @@ require_once BASE_PATH . '/includes/constant/index.php';
                             </div>
                         </form>
             
-                        
+                        <div class="col-2 text-end">
+                    <?php if(!isset($_SESSION['is_login'])){ ?>
+                        <a href="<?php echo BASE_URL."/systemlg/login.php"?>"><button type="button" class="btn btn-light text-dark me-2">Sign In</button></a>
+                        <a href="<?php echo BASE_URL."/systemlg/register.php"?>"><button type="button" class="btn btn-primary">Sign Up</button></a>
+                        <?php  } ?>
+                        </div>
                     </div>
                 </div>
             </div>
