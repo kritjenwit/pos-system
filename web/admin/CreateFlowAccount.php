@@ -1,5 +1,6 @@
 <?php
-require_once "../includes/config/config.php";
+require_once '../includes/constant/index.php';
+require_once BASE_PATH . '/includes/config/config.php';
 
 $description = "";
 $seller = "";
@@ -91,7 +92,7 @@ here:
                     </form>
                 </div>
             </form>
-            <a class="btn btn-secondary" href="FlowAccount.php" role="button">Back</a>
+            <a class="btn btn-secondary" href="<?php echo BASE_URL ?>/dashboard.php" role="button">Back</a>
         </div>
     </div>
 </body>
