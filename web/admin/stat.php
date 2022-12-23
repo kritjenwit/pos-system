@@ -1,5 +1,5 @@
-<?php require_once '../includes/views/header.php'; ?>
-<?php require_once '../includes/config/config.php'; ?>
+<?php require_once '../includes/config/config.php'; 
+require_once "../includes/constant/index.php";?>
 <?php
 
 $stat = "";
@@ -42,13 +42,13 @@ if (count($_POST) > 0) {
 
 
 ?>
-
+<?php require_once BASE_PATH . '/includes/views/header.php'; ?>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   <?php if (count($_POST) > 0) : ?>
 
     <div class="container justify-content-center d-flex">
-    <canvas id="myChart" style="width:100%; max-width:600px; border:1px soild red;"></canvas>
+    <canvas id="myChart" style="width:100%; max-width:800px; border:1px soild red;"></canvas>
     </div>
     <script>
       var xValues = JSON.parse('<?php echo json_encode($x, JSON_UNESCAPED_UNICODE) ?>');
@@ -78,17 +78,17 @@ if (count($_POST) > 0) {
     </script>
   <?php endif; ?>
   <?php here: ?>
-  <div class="container justify-content-center d-flex">
   <form action="" method="post">
-    <label for="tdata">เลือกประเภทข้อมูล</label>
-    <input list="tdata" name="tdata">
+    <div class="container justify-content-center d-flex">
+    <label for="tdata" class="form-label">เลือกประเภทข้อมูล</label>
+    <input class="px-2" list="tdata" name="tdata">
     <datalist id="tdata">
       <option value="ประเภทสินค้า">
       <option value="แบรนสินค้า">
     </datalist>
-    <input type="submit">
-  </form>
+    <input class="btn btn-info" type="submit">
   </div>
+  </form>
 
 
 </body>

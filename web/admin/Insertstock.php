@@ -1,5 +1,6 @@
 <?php
 require_once "../includes/config/config.php";
+require_once "../includes/constant/index.php";
 
 $product_id = "";
 $product_name = "";
