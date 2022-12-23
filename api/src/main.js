@@ -16,6 +16,7 @@ app.post("/api/createflow", flow_account.insertflowaccountHandler); //บัน�
 app.post("/api/updateflow", flow_account.updateflowaccountHandler); //อัพเดทค่าใช้จ่าย dear
 app.post("/api/insertstock", stock.insertstockHandler); //insert stock dear
 app.get("/api/showstock", stock.showstockHandler); //show stock dear
+app.post("/api/saleinsertstock",stock.saleinsertwithidstockHandler); //อัพเดทสต็อกจากหน้าร้าน peach
 app.post("/api/insertstockwithid", stock.insertwithidstockHandler); //show stock dear
 app.post('/api/getDataSales', saleAccount.getDataSales); //get product data "Oat"
 app.post('/api/putAccount', saleAccount.putAccountData); //push data sale of "Oat"
