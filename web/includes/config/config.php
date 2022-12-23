@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 function is_login() {
     // no login
     $status_login = false;

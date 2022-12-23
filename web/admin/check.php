@@ -1,5 +1,9 @@
-<?php require_once '../includes/views/header.php'; ?>
-<?php require_once '../includes/config/config.php'; ?>
+<?php 
+require_once '../includes/constant/index.php';
+require_once BASE_PATH . '/includes/config/config.php';
+
+?>
+<?php require_once BASE_PATH . '/includes/views/header.php'; ?>
     <body>
 
         <div class="container">
@@ -10,7 +14,10 @@
                             //คิวรี่ข้อมูลมาแสดงในตาราง
                       ?>
                       <br>
-                    <h3> รายงานยอดขาย แยกเป็นรายเดือน</h3>
+                    <div class="d-flex justify-content-between px-4 my-3">
+                        <h3> รายงานยอดขาย แยกเป็นรายเดือน</h3>
+                        <a clsss="btn btn-dark" href="<?php echo BASE_URL ?>/dashboard.php" role="button">Back</a>
+                    </div>  
  
                     <table class="table table-hover table-responsive table-bordered">
                         <thead class="table-dark">

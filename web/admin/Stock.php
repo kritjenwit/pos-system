@@ -1,19 +1,17 @@
 <?php
-require_once "../includes/config/config.php";
+require_once '../includes/constant/index.php';
+require_once BASE_PATH . '/includes/config/config.php';
 
-$url = "http://localhost:3000/api/showstock";
+$url = API_URL . "/api/showstock";
 $response = curl_get($url);
-//print_r($response[0]);
 
-$url2 = "http://localhost/Project/pos-system/linenotify/mainnotify.php";
+$url2 = BASE_URL_LINE . "/linenotify/mainnotify.php";
 
 $data1 = [
     'action' => 'stock',
-    'stockdata' => $response
+    'stockdata' => json_encode($response)
 ];
 $response2 = json_post($url2,$data1);
-var_dump($response);
-//json_response($url2);
 
 
 function json_post($url, $data)
@@ -39,7 +37,7 @@ if(count($_POST) > 0){
     if(isset($_POST['product_id'])){
         $product_id = $_POST['product_id'];
     }
-    $url1 = "http://localhost:3000/api/insertstockwithid";
+    $url1 = API_URL . "/api/insertstockwithid";
     $data1 = [
         "product_id" => $product_id
     ];
@@ -51,22 +49,18 @@ if(count($_POST) > 0){
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-</head>
-
+<?php require_once "../includes/views/header.php"; ?>
 <body>
-    <?php require_once "../includes/views/header.php"; ?>
     <div class="container mt-3">
-        <a class="btn btn-primary" href="Insertstock.php" role="button">เพิ่มสต็อคใหม่</a>
+        <div class="d-flex justify-content-between">
+            <div>
+                <a class="btn btn-primary" href="Insertstock.php" role="button">เพิ่มสต็อคใหม่</a>
+            </div>
+            <div>
+                <a clsss="btn btn-secondery" href="<?php echo BASE_URL ?>/dashboard.php" role="button">Back</a>
+            </div>
+        </div>
         <table class="table table-dark table-hover text-center mt-3">
             <thead>
                 <tr>

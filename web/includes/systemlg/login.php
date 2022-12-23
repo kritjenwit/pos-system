@@ -21,12 +21,13 @@ if(isset($_POST['send'])) {
         'password' => $password,
     ];
     $response = curl_post($url, $data);
+    // print_r($response); die;
 
     if (!is_array($response)) {
         $_SESSION['error'] = "No Response from api not JSON";
         goto here;
     } else {
-        if ($response['code'] == CODE_SUCCESS) {
+        if ($response['code'] == 200) {
             $_SESSION['success'] = $response['message'];
             $_SESSION['is_login'] = 'yes';
             header('location: ' . BASE_URL . '/index.php');
@@ -37,6 +38,7 @@ if(isset($_POST['send'])) {
     
 }
 here:
+// print_r(is_login()); die;
 
 ?>
 
