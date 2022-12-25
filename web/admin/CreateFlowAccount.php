@@ -1,6 +1,6 @@
 <?php
 require_once '../includes/constant/index.php';
-require_once BASE_PATH . '/includes/config/config.php';
+require_once "../includes/config/config.php";
 
 $description = "";
 $seller = "";
@@ -25,7 +25,7 @@ if (count($_POST) > 0) {
         header("location: CreateFlowAccount.php");
         goto here;
     }
-    $url = "http://localhost:3000/api/createflow";
+    $url = API_URL . "/api/createflow";
     $data = [
         'description' => $description,
         'seller' => $seller,
@@ -63,16 +63,17 @@ here:
 </head>
 
 <body>
-<?php require_once "../includes/views/header.php"; ?>
+    <?php require_once "../includes/views/header.php"; ?>
 
     <div class="container mt-3">
         <div class="card">
-            <form action="" method="post">
-                <div class="card-header text-white bg-success">
-                    <button class="btn btn-primary">บันทึก</button>
+            
+                <div class="card-header text-white bg-warning">
+                <a class="btn btn-secondary" href="<?php echo BASE_URL ?>/dashboard.php" role="button">Back</a>
+                    
                 </div>
                 <div class="card-body">
-                    <form class="row g-3">
+                    <form class="row g-3" method="POST">
                         <div class="mb">
                             <label for="input" class="form-label">ชื่อผู้จำหน่าย</label>
                             <input type="text" class="form-control" name="seller" id="input" placeholder="Example input placeholder" required>
@@ -87,12 +88,12 @@ here:
                         </div>
                         <div class="mb">
                             <label for="input" class="form-label">ยอดค้างชำระ</label>
-                            <input type="text" class="form-control" name="summary" id="input" placeholder="Example input placeholder" required>
+                            <input type="number" class="form-control" name="summary" id="input" placeholder="Example input placeholder" required>
                         </div>
+                        <button class="btn btn-primary">บันทึก</button>
                     </form>
                 </div>
-            </form>
-            <a class="btn btn-secondary" href="<?php echo BASE_URL ?>/dashboard.php" role="button">Back</a>
+            
         </div>
     </div>
 </body>
